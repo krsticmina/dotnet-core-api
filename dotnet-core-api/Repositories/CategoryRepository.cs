@@ -25,6 +25,19 @@ namespace dotnet_core_api.Repositories
             return await context.Categories.Where(c => c.Name == name).FirstOrDefaultAsync();
         }
 
+        public void DeleteCategory(Category category)
+        {
+            var categoryToDelete = context.Categories.Find(category.Id);
+            context.Categories.Remove(categoryToDelete);
+
+        }
+
+        public async Task<Category?> GetCategoryByIdAsync(int categoryId)
+        {
+            return await context.Categories.Where(c => c.Id == categoryId).FirstOrDefaultAsync();
+        }
+
+
         public async Task<bool> SaveChangesAsync()
         {
             return await context.SaveChangesAsync() >= 0;

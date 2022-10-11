@@ -36,5 +36,41 @@ namespace dotnet_core_api.Services
 
         }
 
+        public async Task<CategoryModel> DeleteCategoryByIdAsync(int categoryId)
+        {
+            var category = await categoryRepository.GetCategoryByIdAsync(categoryId);
+
+            if (category == null)
+            {
+                throw new Exception($"Category with Id {categoryId} does not exist in database");
+            }
+
+            categoryRepository.DeleteCategory(category);
+
+            await categoryRepository.SaveChangesAsync();
+
+            return mapper.Map<CategoryModel>(category);
+
+        }
+
+        public async Task<CategoryModel> DeleteCategoryByNameAsync(string categoryName)
+        {
+            var category = await categoryRepository.GetCategoryByNameAsync(categoryName);
+
+            if (category == null)
+            {
+                throw new Exception($"Category with name {categoryName} does not exist in database");
+            }
+
+            categoryRepository.DeleteCategory(category);
+
+            await categoryRepository.SaveChangesAsync();
+
+            return mapper.Map<CategoryModel>(category);
+
+        }
+
+
+
     }
 }

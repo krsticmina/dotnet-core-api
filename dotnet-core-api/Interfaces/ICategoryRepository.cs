@@ -23,5 +23,20 @@ namespace dotnet_core_api.Interfaces
         /// <returns></returns>
         Task<Category?> GetCategoryByNameAsync(string name);
 
+
+        /// <summary>
+        /// Asynchronous method for getting a category from database using Id
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        Task<Category?> GetCategoryByIdAsync(int categoryId);
+
+        /// <summary>
+        /// Method for deleting a category from database
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        void DeleteCategory(Category category);
+
     }
 }

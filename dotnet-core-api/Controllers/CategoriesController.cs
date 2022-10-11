@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using dotnet_core_api.Contracts.V1;
-using dotnet_core_api.Data.Entities;
 using dotnet_core_api.Dtos;
 using dotnet_core_api.Interfaces;
 using dotnet_core_api.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 
 namespace dotnet_core_api.Controllers
 {
@@ -36,7 +34,27 @@ namespace dotnet_core_api.Controllers
             return Ok(newCategory);
         }
 
+        [HttpDelete(ApiRoutesV1.Categories.DeleteCategoryById)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteCategoryById(int categoryId)
+        {
+            var category = await categoryService.DeleteCategoryByIdAsync(categoryId);
 
+            return Ok(category);
+
+        }
+
+
+        [HttpDelete(ApiRoutesV1.Categories.DeleteCategoryByName)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteCategoryByName(string categoryName)
+        {
+            var category = await categoryService.DeleteCategoryByNameAsync(categoryName);
+
+            return Ok(category);
+        }
 
     }
 }
