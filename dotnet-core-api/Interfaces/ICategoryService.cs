@@ -4,10 +4,11 @@ namespace dotnet_core_api.Interfaces
 {
     public interface ICategoryService
     {
+
         /// <summary>
-        /// Asynchronous service method for adding an employee.
+        /// Asynchronous service method for adding a category 
         /// </summary>
-        /// <param name="newCategory"></param>
+        /// <param name="createCategoryRequest"></param>
         /// <returns></returns>
         Task<CategoryModel?> AddCategoryAsync(CreateCategoryModel createCategoryRequest);
 
@@ -18,10 +19,11 @@ namespace dotnet_core_api.Interfaces
         /// <returns></returns>
         Task<CategoryModel?> DeleteCategoryByIdAsync(int categoryId);
 
+
         /// <summary>
-        ///  Asynchronous service method for deleting a category using category name
+        /// Asynchronous service method for deleting a category using category name
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="categoryName"></param>
         /// <returns></returns>
         Task<CategoryModel?> DeleteCategoryByNameAsync(string categoryName);
 
