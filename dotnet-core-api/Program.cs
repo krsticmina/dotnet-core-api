@@ -1,10 +1,16 @@
+using dotnet_core_api;
 using dotnet_core_api.Data.DbContexts;
+using dotnet_core_api.ExceptionHandling;
 using dotnet_core_api.Interfaces;
 using dotnet_core_api.Repositories;
 using dotnet_core_api.Services;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),
+"/nlog.config"));
 
 // Add services to the container.
 
@@ -19,6 +25,8 @@ builder.Services.AddDbContext<BlogDatabaseContext>(options => {
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
+
 
 var app = builder.Build();
 
@@ -28,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

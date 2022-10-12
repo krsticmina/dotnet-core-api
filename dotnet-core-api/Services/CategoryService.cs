@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using dotnet_core_api.Data.Entities;
+using dotnet_core_api.ExceptionHandling.Exceptions;
 using dotnet_core_api.Interfaces;
 using dotnet_core_api.Models;
 
@@ -23,7 +24,7 @@ namespace dotnet_core_api.Services
 
             if (categoryDb != null)
             {
-                return null;
+                throw new CategoryAlreadyExistsException($"Category with name {createCategoryRequest.Name} already exists in the database");
             }
 
             var createCategoryResponse = mapper.Map<Category>(createCategoryRequest);
@@ -42,7 +43,7 @@ namespace dotnet_core_api.Services
 
             if (category == null)
             {
-                return null;
+                throw new CategoryNotFoundException($"Category with Id {categoryId} does not exist in database");
             }
 
             categoryRepository.DeleteCategory(category);
@@ -59,7 +60,7 @@ namespace dotnet_core_api.Services
 
             if (category == null)
             {
-                return null;
+                throw new CategoryNotFoundException($"Category with name {categoryName} does not exist in database");
             }
 
             categoryRepository.DeleteCategory(category);

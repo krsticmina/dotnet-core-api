@@ -29,8 +29,6 @@ namespace dotnet_core_api.Controllers
 
             var createCategoryResponse = await categoryService.AddCategoryAsync(category);
 
-            if (createCategoryResponse == null) return BadRequest($"Category with name {category.Name} already exists in the database");
-
             return Ok(createCategoryResponse);
         }
 
@@ -41,8 +39,6 @@ namespace dotnet_core_api.Controllers
         public async Task<IActionResult> DeleteCategoryById(int categoryId)
         {
             var category = await categoryService.DeleteCategoryByIdAsync(categoryId);
-
-            if (category == null) return BadRequest($"Category with Id {categoryId} does not exist in database");
 
             return Ok(category);
 
@@ -56,8 +52,6 @@ namespace dotnet_core_api.Controllers
         public async Task<IActionResult> DeleteCategoryByName(string categoryName)
         {
             var category = await categoryService.DeleteCategoryByNameAsync(categoryName);
-
-            if (category == null) return BadRequest($"Category with name {categoryName} does not exist in database");
 
             return Ok(category);
         }
