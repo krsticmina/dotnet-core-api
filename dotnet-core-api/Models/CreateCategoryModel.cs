@@ -1,6 +1,6 @@
 ﻿namespace dotnet_core_api.Models
 {
-    public class CategoryToAddModel
+    public class CreateCategoryModel
     {
         public string Name { get; set; }
     }

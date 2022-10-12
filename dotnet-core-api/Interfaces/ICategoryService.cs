@@ -9,21 +9,21 @@ namespace dotnet_core_api.Interfaces
         /// </summary>
         /// <param name="newCategory"></param>
         /// <returns></returns>
-        Task<CategoryModel?> AddCategoryAsync(CategoryToAddModel newCategory);
+        Task<CategoryModel?> AddCategoryAsync(CreateCategoryModel createCategoryRequest);
 
         /// <summary>
         /// Asynchronous service method for deleting a category using categoryId
         /// </summary>
         /// <param name="categoryId"></param>
         /// <returns></returns>
-        Task<CategoryModel> DeleteCategoryByIdAsync(int categoryId);
+        Task<CategoryModel?> DeleteCategoryByIdAsync(int categoryId);
 
         /// <summary>
         ///  Asynchronous service method for deleting a category using category name
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        Task<CategoryModel> DeleteCategoryByNameAsync(string categoryName);
+        Task<CategoryModel?> DeleteCategoryByNameAsync(string categoryName);
 
     }
 }

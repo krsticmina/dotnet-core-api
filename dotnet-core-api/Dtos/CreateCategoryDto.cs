@@ -2,7 +2,7 @@
 
 namespace dotnet_core_api.Dtos
 {
-    public class CategoryForCreationDto
+    public class CreateCategoryDto
     {
         [Required(ErrorMessage = "You should provide a name value.")]
         public String Name { get; set; } 

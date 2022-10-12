@@ -37,7 +37,6 @@ namespace dotnet_core_api.Repositories
             return await context.Categories.Where(c => c.Id == categoryId).FirstOrDefaultAsync();
         }
 
-
         public async Task<bool> SaveChangesAsync()
         {
             return await context.SaveChangesAsync() >= 0;

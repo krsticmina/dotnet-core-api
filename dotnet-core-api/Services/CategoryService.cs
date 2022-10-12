@@ -16,33 +16,33 @@ namespace dotnet_core_api.Services
             this.mapper = mapper;
         }
 
-        public async Task<CategoryModel?> AddCategoryAsync(CategoryToAddModel newCategory)
+        public async Task<CategoryModel?> AddCategoryAsync(CreateCategoryModel createCategoryRequest)
         {
 
-            var categoryDb = await categoryRepository.GetCategoryByNameAsync(newCategory.Name);
+            var categoryDb = await categoryRepository.GetCategoryByNameAsync(createCategoryRequest.Name);
 
             if (categoryDb != null)
             {
                 return null;
             }
 
-            var category = mapper.Map<Category>(newCategory);
+            var createCategoryResponse = mapper.Map<Category>(createCategoryRequest);
 
-            await categoryRepository.AddCategoryAsync(category);
+            await categoryRepository.AddCategoryAsync(createCategoryResponse);
 
             await categoryRepository.SaveChangesAsync();
 
-            return mapper.Map<CategoryModel>(category);
+            return mapper.Map<CategoryModel>(createCategoryResponse);
 
         }
 
-        public async Task<CategoryModel> DeleteCategoryByIdAsync(int categoryId)
+        public async Task<CategoryModel?> DeleteCategoryByIdAsync(int categoryId)
         {
             var category = await categoryRepository.GetCategoryByIdAsync(categoryId);
 
             if (category == null)
             {
-                throw new Exception($"Category with Id {categoryId} does not exist in database");
+                return null;
             }
 
             categoryRepository.DeleteCategory(category);
@@ -53,13 +53,13 @@ namespace dotnet_core_api.Services
 
         }
 
-        public async Task<CategoryModel> DeleteCategoryByNameAsync(string categoryName)
+        public async Task<CategoryModel?> DeleteCategoryByNameAsync(string categoryName)
         {
             var category = await categoryRepository.GetCategoryByNameAsync(categoryName);
 
             if (category == null)
             {
-                throw new Exception($"Category with name {categoryName} does not exist in database");
+                return null;
             }
 
             categoryRepository.DeleteCategory(category);

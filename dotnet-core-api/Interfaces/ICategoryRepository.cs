@@ -10,11 +10,6 @@ namespace dotnet_core_api.Interfaces
         /// <param name="category"></param>
         /// <returns></returns>
         Task AddCategoryAsync(Category category);
-        /// <summary>
-        /// Asynchronous method for saving changes made to database
-        /// </summary>
-        /// <returns></returns>
-        Task<bool> SaveChangesAsync();
 
         /// <summary>
         /// Asynchronous method for getting a category from database using Name
@@ -37,6 +32,8 @@ namespace dotnet_core_api.Interfaces
         /// <param name="category"></param>
         /// <returns></returns>
         void DeleteCategory(Category category);
+
+        Task<bool> SaveChangesAsync();
 
     }
 }

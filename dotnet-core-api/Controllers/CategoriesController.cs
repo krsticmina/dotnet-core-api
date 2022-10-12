@@ -23,23 +23,26 @@ namespace dotnet_core_api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddCategory([FromBody] CategoryForCreationDto categoryToAdd) 
+        public async Task<IActionResult> AddCategory([FromBody] CreateCategoryDto createCategoryRequest) 
         {
-            var category = mapper.Map<CategoryToAddModel>(categoryToAdd);
+            var category = mapper.Map<CreateCategoryModel>(createCategoryRequest);
 
-            var newCategory = await categoryService.AddCategoryAsync(category);
+            var createCategoryResponse = await categoryService.AddCategoryAsync(category);
 
-            if (newCategory == null) return BadRequest($"Category with name {category.Name} already exists in the database");
+            if (createCategoryResponse == null) return BadRequest($"Category with name {category.Name} already exists in the database");
 
-            return Ok(newCategory);
+            return Ok(createCategoryResponse);
         }
 
         [HttpDelete(ApiRoutesV1.Categories.DeleteCategoryById)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteCategoryById(int categoryId)
         {
             var category = await categoryService.DeleteCategoryByIdAsync(categoryId);
+
+            if (category == null) return BadRequest($"Category with Id {categoryId} does not exist in database");
 
             return Ok(category);
 
@@ -48,10 +51,13 @@ namespace dotnet_core_api.Controllers
 
         [HttpDelete(ApiRoutesV1.Categories.DeleteCategoryByName)]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteCategoryByName(string categoryName)
         {
             var category = await categoryService.DeleteCategoryByNameAsync(categoryName);
+
+            if (category == null) return BadRequest($"Category with name {categoryName} does not exist in database");
 
             return Ok(category);
         }
