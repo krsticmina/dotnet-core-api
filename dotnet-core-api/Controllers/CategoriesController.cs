@@ -5,6 +5,7 @@ using dotnet_core_api.ExceptionHandling.Exceptions;
 using dotnet_core_api.Interfaces;
 using dotnet_core_api.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace dotnet_core_api.Controllers
 {
@@ -24,6 +25,7 @@ namespace dotnet_core_api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [BusinessExceptionFilter(typeof(CategoryAlreadyExistsException), HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AddCategory([FromBody] CreateCategoryDto createCategoryRequest) 
         {
             var category = mapper.Map<CreateCategoryModel>(createCategoryRequest);
@@ -37,6 +39,7 @@ namespace dotnet_core_api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [BusinessExceptionFilter(typeof(CategoryNotFoundException), HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteCategoryById(int categoryId)
         {
             var category = await categoryService.DeleteCategoryByIdAsync(categoryId);
@@ -50,6 +53,7 @@ namespace dotnet_core_api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [BusinessExceptionFilter(typeof(CategoryNotFoundException), HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteCategoryByName(string categoryName)
         {
             var category = await categoryService.DeleteCategoryByNameAsync(categoryName);
