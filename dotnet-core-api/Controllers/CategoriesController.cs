@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using dotnet_core_api.Contracts.V1;
 using dotnet_core_api.Dtos;
+using dotnet_core_api.ExceptionHandling.Exceptions;
 using dotnet_core_api.Interfaces;
 using dotnet_core_api.Models;
 using Microsoft.AspNetCore.Mvc;

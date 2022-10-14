@@ -1,6 +1,7 @@
 using dotnet_core_api;
 using dotnet_core_api.Data.DbContexts;
 using dotnet_core_api.ExceptionHandling;
+using dotnet_core_api.ExceptionHandling.Exceptions;
 using dotnet_core_api.Interfaces;
 using dotnet_core_api.Repositories;
 using dotnet_core_api.Services;
@@ -26,7 +27,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
-
+builder.Services.AddControllers(options => options.Filters.Add(new CustomExceptionHandler()));
 
 var app = builder.Build();
 
@@ -36,8 +37,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
