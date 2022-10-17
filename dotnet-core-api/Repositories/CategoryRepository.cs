@@ -1,7 +1,6 @@
-﻿using dotnet_core_api.Data.Entities;
+﻿using dotnet_core_api.Data.DbContexts;
+using dotnet_core_api.Data.Entities;
 using dotnet_core_api.Interfaces;
-using dotnet_core_api.Data.DbContexts;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_core_api.Repositories
