@@ -37,7 +37,7 @@ namespace dotnet_core_api.Controllers
 
         [HttpDelete(ApiRoutesV1.Categories.DeleteCategoryById)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [BusinessExceptionFilter(typeof(CategoryNotFoundException), HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteCategoryById(int categoryId)
@@ -51,7 +51,7 @@ namespace dotnet_core_api.Controllers
 
         [HttpDelete(ApiRoutesV1.Categories.DeleteCategoryByName)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [BusinessExceptionFilter(typeof(CategoryNotFoundException), HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteCategoryByName(string categoryName)
