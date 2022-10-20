@@ -19,17 +19,17 @@ namespace dotnet_core_api.Services
             this.mapper = mapper;
         }
 
-        public async Task<PostModel?> AddPostAsync(CreatePostModel request)
+        public async Task<PostModel?> AddPostAsync(CreatePostModel createPostRequest)
         {
 
-            var category = await categoryRepository.GetCategoryByIdAsync(request.CategoryId);
+            var category = await categoryRepository.GetCategoryByIdAsync(createPostRequest.CategoryId);
 
             if (category == null)
             {
-                throw new CategoryNotFoundException($"Category with Id {request.CategoryId} could not be found.");
+                throw new CategoryNotFoundException($"Category with Id {createPostRequest.CategoryId} could not be found.");
             }
 
-            var createPostResponse = mapper.Map<Post>(request);
+            var createPostResponse = mapper.Map<Post>(createPostRequest);
 
             await postRepository.AddPostAsync(createPostResponse);
 
