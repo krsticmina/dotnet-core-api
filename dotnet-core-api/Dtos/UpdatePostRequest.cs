@@ -2,7 +2,7 @@
 
 namespace dotnet_core_api.Dtos
 {
-    public class UpdatePostDto
+    public class UpdatePostRequest
     {
 
         [Required(ErrorMessage = "The text field cannot be empty.")]

@@ -26,13 +26,13 @@ namespace dotnet_core_api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [BusinessExceptionFilter(typeof(CategoryAlreadyExistsException), HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AddCategory([FromBody] CreateCategoryDto createCategoryRequest) 
+        public async Task<IActionResult> AddCategory([FromBody] CreateCategoryRequest request) 
         {
-            var category = mapper.Map<CreateCategoryModel>(createCategoryRequest);
+            var category = mapper.Map<CreateCategoryModel>(request);
 
-            var createCategoryResponse = await categoryService.AddCategoryAsync(category);
+            var response = await categoryService.AddCategoryAsync(category);
 
-            return Ok(createCategoryResponse);
+            return Ok(response);
         }
 
         [HttpDelete(ApiRoutesV1.Categories.DeleteCategoryById)]

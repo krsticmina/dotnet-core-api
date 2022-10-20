@@ -10,10 +10,10 @@ namespace dotnet_core_api.Profiles
         public PostProfile()
         {
  
-            CreateMap<CreatePostDto, CreatePostModel>();
+            CreateMap<CreatePostRequest, CreatePostModel>();
             CreateMap<CreatePostModel, Post>();
             CreateMap<Post, PostModel>();
-            CreateMap<UpdatePostDto, UpdatePostModel>();
+            CreateMap<UpdatePostRequest, UpdatePostModel>();
             CreateMap<UpdatePostModel, Post>().ReverseMap();
         }
     }

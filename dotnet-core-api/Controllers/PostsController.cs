@@ -38,9 +38,9 @@ namespace dotnet_core_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [BusinessExceptionFilter(typeof(CategoryNotFoundException), HttpStatusCode.NotFound)]
-        public async Task<IActionResult> AddPost([FromBody] CreatePostDto createPostRequest) 
+        public async Task<IActionResult> AddPost([FromBody] CreatePostRequest request) 
         {
-            var post = mapper.Map<CreatePostModel>(createPostRequest);
+            var post = mapper.Map<CreatePostModel>(request);
 
             var response = await service.AddPostAsync(post);
 
@@ -52,9 +52,9 @@ namespace dotnet_core_api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [BusinessExceptionFilter(typeof(PostNotFoundException), HttpStatusCode.NotFound)]
-        public async Task<IActionResult> UpdatePost(int postId, UpdatePostDto updatePostRequest)
+        public async Task<IActionResult> UpdatePost(int postId, UpdatePostRequest request)
         {
-            var post = mapper.Map<UpdatePostModel>(updatePostRequest);
+            var post = mapper.Map<UpdatePostModel>(request);
             
             await service.UpdatePostAsync(postId, post);
 

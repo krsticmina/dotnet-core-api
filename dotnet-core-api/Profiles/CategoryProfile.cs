@@ -9,7 +9,7 @@ namespace dotnet_core_api.Profiles
     {
         public CategoryProfile() 
         {
-            CreateMap<CreateCategoryDto, CreateCategoryModel>();
+            CreateMap<CreateCategoryRequest, CreateCategoryModel>();
             CreateMap<CreateCategoryModel, Category>();
             CreateMap<Category, CategoryModel>();
         }
