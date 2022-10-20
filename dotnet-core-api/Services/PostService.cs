@@ -19,23 +19,23 @@ namespace dotnet_core_api.Services
             this.mapper = mapper;
         }
 
-        public async Task<PostModel?> AddPostAsync(CreatePostModel createPostRequest)
+        public async Task<PostModel?> AddPostAsync(CreatePostModel createPostModel)
         {
 
-            var category = await categoryRepository.GetCategoryByIdAsync(createPostRequest.CategoryId);
+            var category = await categoryRepository.GetCategoryByIdAsync(createPostModel.CategoryId);
 
             if (category == null)
             {
-                throw new CategoryNotFoundException($"Category with Id {createPostRequest.CategoryId} could not be found.");
+                throw new CategoryNotFoundException($"Category with Id {createPostModel.CategoryId} could not be found.");
             }
 
-            var createPostResponse = mapper.Map<Post>(createPostRequest);
+            var post = mapper.Map<Post>(createPostModel);
 
-            await postRepository.AddPostAsync(createPostResponse);
+            await postRepository.AddPostAsync(post);
 
             await postRepository.SaveChangesAsync();
 
-            return mapper.Map<PostModel>(createPostResponse);
+            return mapper.Map<PostModel>(post);
         }
 
         public async Task<PostModel?> DeletePostByIdAsync(int postId)
@@ -68,7 +68,7 @@ namespace dotnet_core_api.Services
 
         }
 
-        public async Task UpdatePostAsync(int postId, UpdatePostModel updatePostRequest)
+        public async Task UpdatePostAsync(int postId, UpdatePostModel updatePostModel)
         {
             var post = await postRepository.GetPostByIdAsync(postId);
 
@@ -77,7 +77,7 @@ namespace dotnet_core_api.Services
                 throw new PostNotFoundException($"Post with Id {postId} does not exist.");
             }
 
-            mapper.Map(updatePostRequest, post);
+            mapper.Map(updatePostModel, post);
 
             await postRepository.SaveChangesAsync();
         }
