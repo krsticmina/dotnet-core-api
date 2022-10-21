@@ -33,6 +33,10 @@ namespace dotnet_core_api.Interfaces
         /// <returns></returns>
         void DeleteCategory(Category category);
 
+        /// <summary>
+        /// Asynchronous method for saving changes made to database
+        /// </summary>
+        /// <returns></returns>
         Task<bool> SaveChangesAsync();
 
     }

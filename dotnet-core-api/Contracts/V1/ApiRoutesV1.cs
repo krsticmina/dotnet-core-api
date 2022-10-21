@@ -14,6 +14,14 @@
             public const string DeleteCategoryById = Base + "categories/{categoryId:int}";
             public const string DeleteCategoryByName = Base + "categories/{categoryName:alpha}";
         }
+
+        public static class Posts
+        {
+            public const string AddPost = Base + "posts";
+            public const string DeletePostById = Base + "posts/{postId:int}";
+            public const string GetPostById = Base + "posts/{postId:int}";
+            public const string UpdatePost = Base + "posts/{postId:int}";
+        }
     }
 
 }

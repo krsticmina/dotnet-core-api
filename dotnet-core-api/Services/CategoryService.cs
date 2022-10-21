@@ -17,23 +17,23 @@ namespace dotnet_core_api.Services
             this.mapper = mapper;
         }
 
-        public async Task<CategoryModel?> AddCategoryAsync(CreateCategoryModel createCategoryRequest)
+        public async Task<CategoryModel?> AddCategoryAsync(CreateCategoryModel createCategoryModel)
         {
 
-            var categoryDb = await categoryRepository.GetCategoryByNameAsync(createCategoryRequest.Name);
+            var categoryDb = await categoryRepository.GetCategoryByNameAsync(createCategoryModel.Name);
 
             if (categoryDb != null)
             {
-                throw new CategoryAlreadyExistsException($"Category with name {createCategoryRequest.Name} already exists in the database");
+                throw new CategoryAlreadyExistsException($"Category with name {createCategoryModel.Name} already exists in the database");
             }
 
-            var createCategoryResponse = mapper.Map<Category>(createCategoryRequest);
+            var category = mapper.Map<Category>(createCategoryModel);
 
-            await categoryRepository.AddCategoryAsync(createCategoryResponse);
+            await categoryRepository.AddCategoryAsync(category);
 
             await categoryRepository.SaveChangesAsync();
 
-            return mapper.Map<CategoryModel>(createCategoryResponse);
+            return mapper.Map<CategoryModel>(category);
 
         }
 
