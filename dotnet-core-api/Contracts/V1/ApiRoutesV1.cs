@@ -22,6 +22,12 @@
             public const string GetPostById = Base + "posts/{postId:int}";
             public const string UpdatePost = Base + "posts/{postId:int}";
         }
+
+        public static class Identity 
+        {
+            public const string Register = Base + "identity/register";
+            public const string Login = Base + "identity/login";
+        }
     }
 
 }
