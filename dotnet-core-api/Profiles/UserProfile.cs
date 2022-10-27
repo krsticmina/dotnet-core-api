@@ -10,6 +10,7 @@ namespace dotnet_core_api.Profiles
         public UserProfile()
         {
             CreateMap<UserRegistrationRequest, UserRegistrationModel>();
+            CreateMap<UserLoginRequest, UserLoginModel>();
         }
     }
 }

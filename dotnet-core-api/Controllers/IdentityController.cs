@@ -42,5 +42,25 @@ namespace dotnet_core_api.Controllers
             return StatusCode(201);
         }
 
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPost(ApiRoutesV1.Identity.Login)]
+        public async Task<IActionResult> Login([FromBody] UserLoginRequest userLoginRequest)
+        {
+            var user = mapper.Map<UserLoginModel>(userLoginRequest);
+
+            var userLoginResponse = await identityService.ValidateUser(user);
+
+            if (!userLoginResponse)
+            {
+                return Unauthorized("Wrong username/password.");
+            }
+
+            var token = await identityService.CreateToken();
+
+            return Ok( new { Token = token });
+
+        }
     }
 }

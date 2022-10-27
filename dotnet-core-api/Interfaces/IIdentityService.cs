@@ -6,5 +6,7 @@ namespace dotnet_core_api.Interfaces
     public interface IIdentityService
     {
         Task<IdentityResult> RegisterUser(UserRegistrationModel userRegistrationModel);
+        Task<bool> ValidateUser(UserLoginModel userLoginModel);
+        Task<string> CreateToken();
     }
 }

@@ -3,16 +3,25 @@ using dotnet_core_api.Data.Entities;
 using dotnet_core_api.Interfaces;
 using dotnet_core_api.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Xml.Linq;
+
 namespace dotnet_core_api.Services
 {
     public class IdentityService : IIdentityService
     {
+        private readonly ILoggerManager logger;
         private readonly UserManager<User> userManager;
         private readonly IConfiguration configuration;
         private readonly IMapper mapper;
+        private User _user;
 
-        public IdentityService(UserManager<User> userManager, IConfiguration configuration, IMapper mapper)
+        public IdentityService(ILoggerManager logger, UserManager<User> userManager, IConfiguration configuration, IMapper mapper)
         {
+            this.logger = logger;
             this.userManager = userManager;
             this.configuration = configuration;
             this.mapper = mapper;
@@ -30,6 +39,43 @@ namespace dotnet_core_api.Services
             var result = await userManager.CreateAsync(user, userRegistrationModel.Password);
 
             return result;  
+        }
+
+        public async Task<bool> ValidateUser(UserLoginModel userLoginModel)
+        {
+            _user = await userManager.FindByNameAsync(userLoginModel.UserName);
+
+            var result = (_user != null && await userManager.CheckPasswordAsync(_user, userLoginModel.Password));
+
+            if (!result) 
+            {
+                logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
+            }
+
+            return result;
+        }
+
+        public async Task<string> CreateToken()
+        {
+            var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, _user.UserName),
+                    new Claim(ClaimTypes.Email, _user.Email),
+                    new Claim("Id", _user.Id),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtAuthentication:SecretForKey"]));
+
+            var token = new JwtSecurityToken(
+                issuer: configuration["JwtAuthentication:Issuer"],
+                audience: configuration["JwtAuthentication:Audience"],
+                expires: DateTime.Now.AddHours(1),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
