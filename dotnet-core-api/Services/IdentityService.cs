@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Xml.Linq;
 
 namespace dotnet_core_api.Services
 {
@@ -86,7 +85,7 @@ namespace dotnet_core_api.Services
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtAuthentication:SecretForKey"]));
+            var authSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JwtAuthentication:SecretForKey"]));
 
             var token = new JwtSecurityToken(
                 issuer: configuration["JwtAuthentication:Issuer"],

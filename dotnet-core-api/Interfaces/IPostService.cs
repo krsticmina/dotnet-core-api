@@ -9,14 +9,14 @@ namespace dotnet_core_api.Interfaces
         /// </summary>
         /// <param name="createPostRequest"></param>
         /// <returns></returns>
-        Task<PostModel?> AddPostAsync(CreatePostModel createPostRequest);
+        Task<PostModel?> AddPostAsync(CreatePostModel createPostRequest, string userId);
 
         /// <summary>
         /// Asynchronous service method for deleting a post using post Id
         /// </summary>
         /// <param name="postId"></param>
         /// <returns></returns>
-        Task<PostModel?> DeletePostByIdAsync(int postId);
+        Task<PostModel?> DeletePostByIdAsync(int postId, string userId);
 
         /// <summary>
         /// Asynchronous service method for getting a post using post Id
@@ -32,6 +32,6 @@ namespace dotnet_core_api.Interfaces
         /// <param name="postId"></param>
         /// <param name="updatePostRequest"></param>
         /// <returns></returns>
-        Task UpdatePostAsync(int postId, UpdatePostModel updatePostRequest);
+        Task UpdatePostAsync(int postId, UpdatePostModel updatePostRequest, string userId);
     }
 }
