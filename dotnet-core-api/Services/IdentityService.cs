@@ -15,14 +15,16 @@ namespace dotnet_core_api.Services
     {
         private readonly ILoggerManager logger;
         private readonly UserManager<User> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration configuration;
         private readonly IMapper mapper;
         private User _user;
 
-        public IdentityService(ILoggerManager logger, UserManager<User> userManager, IConfiguration configuration, IMapper mapper)
+        public IdentityService(ILoggerManager logger, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper)
         {
             this.logger = logger;
             this.userManager = userManager;
+            this.roleManager = roleManager;
             this.configuration = configuration;
             this.mapper = mapper;
         }
@@ -37,6 +39,18 @@ namespace dotnet_core_api.Services
             };
 
             var result = await userManager.CreateAsync(user, userRegistrationModel.Password);
+
+            if (result.Succeeded)
+            {
+                foreach (var role in userRegistrationModel.Roles)
+                {
+                    if (await roleManager.RoleExistsAsync(role))
+                    {
+                        await userManager.AddToRoleAsync(user, role);
+                    }
+                }
+
+            }
 
             return result;  
         }
@@ -57,6 +71,8 @@ namespace dotnet_core_api.Services
 
         public async Task<string> CreateToken()
         {
+            var userRoles = await userManager.GetRolesAsync(_user);
+
             var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, _user.UserName),
@@ -64,6 +80,11 @@ namespace dotnet_core_api.Services
                     new Claim("Id", _user.Id),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
+
+            foreach (var userRole in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+            }
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtAuthentication:SecretForKey"]));
 

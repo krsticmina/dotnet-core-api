@@ -53,8 +53,9 @@ namespace dotnet_core_api.Data.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CreatedById")
-                        .HasColumnType("int");
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -166,17 +167,17 @@ namespace dotnet_core_api.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "be712f64-a91b-4207-93ea-713fa7a462af",
-                            ConcurrencyStamp = "37ab59e7-8fea-4f18-ba0d-1980c51165ac",
+                            Id = "9aa193f7-b49d-41e0-a367-f30d3b24688e",
+                            ConcurrencyStamp = "162cdbde-6891-4f08-ac5c-db26daea54ff",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "003bca04-3755-4acf-aa20-b8347b0229b7",
-                            ConcurrencyStamp = "b536a339-a72a-4dd3-bb9a-c46b9e7080ae",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
+                            Id = "b5b6d863-62a0-4a02-83bb-0ff93abaf9ae",
+                            ConcurrencyStamp = "9af12690-f5ed-4a29-b140-74b6aa9634e2",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 

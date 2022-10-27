@@ -16,7 +16,7 @@ namespace dotnet_core_api.Data.Entities
         public Category Category { get; set; }
 
         [ForeignKey("CreatedById")]
-        public int CreatedById { get; set; }
+        public string CreatedById { get; set; }
         public User User { get; set; }
 
 

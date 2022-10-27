@@ -16,8 +16,8 @@ namespace dotnet_core_api.Data
                 },
                 new IdentityRole
                 {
-                    Name = "Administrator",
-                    NormalizedName = "ADMINISTRATOR"
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
                 });
         }
     }
