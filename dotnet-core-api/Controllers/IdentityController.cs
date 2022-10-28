@@ -41,7 +41,7 @@ namespace dotnet_core_api.Controllers
             return StatusCode(201);
         }
 
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost(ApiRoutesV1.Identity.Login)]
@@ -53,7 +53,7 @@ namespace dotnet_core_api.Controllers
 
             if (!userLoginResponse)
             {
-                return Unauthorized("Wrong username/password.");
+                return BadRequest("Wrong username/password.");
             }
 
             var token = await identityService.CreateToken();

@@ -40,9 +40,9 @@ namespace dotnet_core_api.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost(ApiRoutesV1.Posts.AddPost)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [BusinessExceptionFilter(typeof(CategoryNotFoundException), HttpStatusCode.NotFound)]
+        [BusinessExceptionFilter(typeof(CategoryNotFoundException), HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AddPost([FromBody] CreatePostRequest createPostRequest) 
         {
             var post = mapper.Map<CreatePostModel>(createPostRequest);

@@ -41,14 +41,7 @@ namespace dotnet_core_api.Services
 
             if (result.Succeeded)
             {
-                foreach (var role in userRegistrationModel.Roles)
-                {
-                    if (await roleManager.RoleExistsAsync(role))
-                    {
-                        await userManager.AddToRoleAsync(user, role);
-                    }
-                }
-
+                await userManager.AddToRoleAsync(user, "User");
             }
 
             return result;  

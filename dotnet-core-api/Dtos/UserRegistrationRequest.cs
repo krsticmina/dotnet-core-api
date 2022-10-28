@@ -10,6 +10,5 @@ namespace dotnet_core_api.Dtos
         public string? Password { get; set; }
         [Required(ErrorMessage = "You must enter an email.")]
         public string? Email { get; set; }
-        public ICollection<string>? Roles { get; set; }
     }
 }
