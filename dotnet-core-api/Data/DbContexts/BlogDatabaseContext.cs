@@ -16,6 +16,9 @@ namespace dotnet_core_api.Data.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+
         }
 
     }

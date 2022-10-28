@@ -19,7 +19,7 @@ namespace dotnet_core_api.Services
             this.mapper = mapper;
         }
 
-        public async Task<PostModel?> AddPostAsync(CreatePostModel createPostModel)
+        public async Task<PostModel?> AddPostAsync(CreatePostModel createPostModel, string userId)
         {
 
             var category = await categoryRepository.GetCategoryByIdAsync(createPostModel.CategoryId);
@@ -31,6 +31,8 @@ namespace dotnet_core_api.Services
 
             var post = mapper.Map<Post>(createPostModel);
 
+            post.CreatedById = userId;
+
             await postRepository.AddPostAsync(post);
 
             await postRepository.SaveChangesAsync();
@@ -38,13 +40,18 @@ namespace dotnet_core_api.Services
             return mapper.Map<PostModel>(post);
         }
 
-        public async Task<PostModel?> DeletePostByIdAsync(int postId)
+        public async Task<PostModel?> DeletePostByIdAsync(int postId, string userId)
         {
             var post = await postRepository.GetPostByIdAsync(postId);
 
             if (post == null)
             {
                 throw new PostNotFoundException($"Post with Id {postId} does not exist.");
+            }
+
+            if (!post.CreatedById.Equals(userId)) 
+            {
+                throw new UnauthorizedAccessException("You can't delete a post made by another user.");
             }
 
             postRepository.DeletePost(post);
@@ -68,13 +75,18 @@ namespace dotnet_core_api.Services
 
         }
 
-        public async Task UpdatePostAsync(int postId, UpdatePostModel updatePostModel)
+        public async Task UpdatePostAsync(int postId, UpdatePostModel updatePostModel, string userId)
         {
             var post = await postRepository.GetPostByIdAsync(postId);
 
             if (post == null)
             {
                 throw new PostNotFoundException($"Post with Id {postId} does not exist.");
+            }
+
+            if (!post.CreatedById.Equals(userId))
+            {
+                throw new UnauthorizedAccessException("You can't update a post made by another user.");
             }
 
             mapper.Map(updatePostModel, post);
